@@ -20,30 +20,19 @@ func main() {
 	})
 
 	e.GET("/personas", func(c echo.Context) error {
-		return GetPersonas(c, h)
+		return HandlerGetPersonas(c, h)
 	})
 
 	e.POST("/register", func(c echo.Context) error {
-		return PostRegisterPersona(c, h)
+		return HandlerPostRegisterPersona(c, h)
 	})
 
 	e.PUT("/register/:id", func(c echo.Context) error {
-		id := c.Param("id")
-		persona := schema.Personas{}
+		return HandlerUpdatePersona(c, h)
+	})
 
-		if err := h.DB.Find(&persona, id).Error; err != nil {
-			return c.NoContent(http.StatusNotFound)
-		}
-
-		if err := c.Bind(&persona); err != nil {
-			return c.NoContent(http.StatusBadRequest)
-		}
-
-		if err := h.DB.Save(&persona).Error; err != nil {
-			return c.NoContent(http.StatusInternalServerError)
-		}
-
-		return c.JSON(http.StatusOK, persona)
+	e.DELETE("/register/:id", func(c echo.Context) error {
+		return HandlerDeletePersona(c, h)
 	})
 
 	e.Logger.Fatal(e.Start(":1323"))

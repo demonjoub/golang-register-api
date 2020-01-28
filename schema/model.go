@@ -33,3 +33,8 @@ type Villages struct {
 	villageDesc string    `json"village_desc"`
 	CreateAt    time.Time `json"create_at"`
 }
+
+type MyError struct {
+	Code    int    `json"code"`
+	Message string `json"message"`
+}
